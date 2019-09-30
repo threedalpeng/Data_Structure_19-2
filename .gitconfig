@@ -1,0 +1,7 @@
+[user]
+	email = threedalpeng@gmail.com
+	name = Kim Jeong-Won
+[push]
+	default = matching
+[core]
+	editor = nano
