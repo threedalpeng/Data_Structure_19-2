@@ -1,2 +1,2 @@
 # Data_Structure
-Codes for an Introduction to Data Structure from SKKU
+Codes for a lecture from SKKU, an Introduction to Data Structure.
