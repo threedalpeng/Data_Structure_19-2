@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <Stack.h>
 #define MAX_STACK_SIZE 101
 
 typedef enum {
@@ -12,6 +13,8 @@ typedef enum {
     eos,
     operand
 } precedence;
+
+char expr[] = "4/2-2+3*3-4*2";
 
 precedence stack[MAX_STACK_SIZE];
 // in-stack precedence
