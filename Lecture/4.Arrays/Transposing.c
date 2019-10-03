@@ -30,7 +30,7 @@ void transpose(term a[], term b[])
         currentb = 1;
         for (i = 0; i < a[0].col; i++)
         {
-            for (j = 1; j < n; j++)
+            for (j = 1; j <= n; j++)
             {
                 if (a[j].col == i)
                 {
@@ -74,9 +74,12 @@ int main()
     clock_t start1, start2, end1, end2;
 
     term a[MAX_TERMS] = {
-        {6, 6, 8},
+        {6, 6, 11},
         {0, 0, 15},
+        {0, 1, 23},
+        {0, 2, 9},
         {0, 3, 22},
+        {0, 4, 23},
         {0, 5, -15},
         {1, 1, 11},
         {1, 2, 3},
@@ -94,17 +97,17 @@ int main()
     start1 = clock();
     transpose(a, b);
     end1 = clock();
-    float d1 = (start1 - end1) / CLOCKS_PER_SEC;
+    double d1 = (end1 - start1) / (double)CLOCKS_PER_SEC;
 
     start2 = clock();
     fasttranspose(a, c);
     end2 = clock();
-    float d2 = (start2 - end2) / CLOCKS_PER_SEC;
+    double d2 = (end2 - start2) / (double)CLOCKS_PER_SEC;
 
     puts("\nTerms b after using transpose:");
     print_terms(b);
-    printf("duration: %.6f\n", d1);
-    puts("\nTerms c after using transpose:");
+    printf("duration: %.6lf\n", d1);
+    puts("\nTerms c after using fasttranspose:");
     print_terms(c);
-    printf("duration: %.6f\n", d2);
+    printf("duration: %.6lf\n", d2);
 }
