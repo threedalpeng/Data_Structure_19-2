@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <windows.h>
 #define MAX_SIZE 100
 char s[MAX_SIZE] = {"dog"};
 char t[MAX_SIZE] = {"house"};
 char pat1[MAX_SIZE] = {"og"};
 char pat2[MAX_SIZE] = {"dor"};
+char speed_test[MAX_SIZE] = {"wpvnpoewnewjpfjwpeocpoewoingoewnwienfvbndksjdovbekwbxut,nbzdwkpwmpoecweonfopnwepgrngvwnpcvmlxck"};
+char speed_test_pat[MAX_SIZE] = {"asdfsdfa"};
 int failure[MAX_SIZE];
 
 void strnins(char*, char*, int);
@@ -15,16 +18,35 @@ void fail(char*);
 
 int main()
 {
+    LARGE_INTEGER start1, start2, end1, end2, freq;
+    QueryPerformanceFrequency(&freq);
+
     printf("Original string: %s\n", s);
-    printf("Before inserting: %s\n", t);
+    printf("String to insert: %s\n", t);
     strnins(s, t, 3);
-    printf("After inserting: %s\n", t);
+    printf("After inserting: %s\n", s);
     printf("Pattern to match: %s\n", pat1);
-    printf("Finding by pattern match: %s\n", pmatch(s, pat1) ? "true" : "false");
-    printf("Finding by fast pattern match: %s\n", pmatch(s, pat1) ? "true" : "false");
+    printf("Finding by pattern match: %s\n", nfind(s, pat1) + 1 ? "true" : "false");
+    printf("Finding by fast pattern match: %s\n", pmatch(s, pat1) + 1  ? "true" : "false");
     printf("Pattern to match: %s\n", pat2);
-    printf("Finding by pattern match: %s\n", pmatch(s, pat2) ? "true" : "false");
-    printf("Finding by fast pattern match: %s\n", pmatch(s, pat2) ? "true" : "false");
+    printf("Finding by pattern match: %s\n", nfind(s, pat2) + 1 ? "true" : "false");
+    printf("Finding by fast pattern match: %s\n", pmatch(s, pat2) + 1 ? "true" : "false");
+    
+    printf("\nSpeed test\n");
+
+    QueryPerformanceCounter(&start1);
+    nfind(speed_test, speed_test_pat);
+    QueryPerformanceCounter(&end1);
+    double d1 = (double)(end1.QuadPart - start1.QuadPart) / freq.QuadPart * 1000000;
+
+    QueryPerformanceCounter(&start2);
+    pmatch(speed_test, speed_test_pat);
+    QueryPerformanceCounter(&end2);
+    double d2 = (double)(end2.QuadPart - start2.QuadPart) / freq.QuadPart * 1000000;
+
+    printf("Pattern match duration: %.4lf us\n", d1);
+    printf("Fast pattern match duration: %.4lf us\n", d2);
+
     return 0;
 }
 
@@ -79,7 +101,7 @@ int pmatch(char* s, char* pat)
             i++; j++;
         }
         else if (j == 0) i++;
-        else j = failure[j-1] + 1;
+        else j = failure[j-1];
     }
     return ((j == lenp) ? (i - lenp) : -1);
 }

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <time.h>
+#include <windows.h>
 #define MAX_TERMS 101
 #define MAX_COL 11
 
@@ -71,7 +71,8 @@ void fasttranspose(term a[], term b[])
 
 int main()
 {
-    clock_t start1, start2, end1, end2;
+    LARGE_INTEGER start1, start2, end1, end2, freq;
+    QueryPerformanceFrequency(&freq);
 
     term a[MAX_TERMS] = {
         {6, 6, 11},
@@ -88,26 +89,26 @@ int main()
         {5, 2, 28}
     };
 
-    puts("Terms a before using any transpose\n");
+    puts("Terms a before using any transpose:\n");
     print_terms(a);
 
     term b[MAX_TERMS];
     term c[MAX_TERMS];
-
-    start1 = clock();
+    
+    QueryPerformanceCounter(&start1);
     transpose(a, b);
-    end1 = clock();
-    double d1 = (end1 - start1) / (double)CLOCKS_PER_SEC;
+    QueryPerformanceCounter(&end1);
+    double d1 = (double)(end1.QuadPart - start1.QuadPart) / freq.QuadPart * 1000000;
 
-    start2 = clock();
+    QueryPerformanceCounter(&start2);
     fasttranspose(a, c);
-    end2 = clock();
-    double d2 = (end2 - start2) / (double)CLOCKS_PER_SEC;
+    QueryPerformanceCounter(&end2);
+    double d2 = (double)(end2.QuadPart - start2.QuadPart) / freq.QuadPart * 1000000;
 
     puts("\nTerms b after using transpose:");
     print_terms(b);
-    printf("duration: %.6lf\n", d1);
+    printf("duration: %.4lf us\n", d1);
     puts("\nTerms c after using fasttranspose:");
     print_terms(c);
-    printf("duration: %.6lf\n", d2);
+    printf("duration: %.4lf us\n", d2);
 }
