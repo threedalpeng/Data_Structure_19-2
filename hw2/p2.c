@@ -46,6 +46,7 @@ void InsertTree(TreeNode* rt, TreeNode* ch)
 	if (count > max_count) max_count = count;
 }
 
+
 int main() 
 {
 	int N, i, data;
