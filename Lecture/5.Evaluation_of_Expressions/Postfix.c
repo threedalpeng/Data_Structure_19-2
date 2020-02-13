@@ -19,10 +19,10 @@ char expr[] = "3*(2+1)-5%4 ";
 
 // 스택
 precedence stack[MAX_STACK_SIZE];
-// in-stack precedence
-static int isp[] = {0, 19, 12, 12, 13, 13, 13, 0};
+// in-stack precedence  { (,   ),  +,  -,  *,  /,  %, EOS} 
+static int isp[] =      { 0,  19, 12, 12, 13, 13, 13, 0};
 // incoming precedence
-static int icp[] = {20, 19, 12, 12, 13, 13, 13, 0};
+static int icp[] =      { 20, 19, 12, 12, 13, 13, 13, 0};
 
 void postfix(void);
 precedence pop(int*);

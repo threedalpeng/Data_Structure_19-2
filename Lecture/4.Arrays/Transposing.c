@@ -58,7 +58,7 @@ void fasttranspose(term a[], term b[])
         for (i = 1; i < numTerms; i++)
             rowTerms[a[i].col]++;
         startingPos[0] = 1;
-        for (i = 1; i<numTerms;i++)
+        for (i = 1; i < numCols;i++)
             startingPos[i] = startingPos[i - 1] + rowTerms[i - 1];
         for (i = 1; i <= numTerms; i++)
         {
